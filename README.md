@@ -1,35 +1,41 @@
-# Custom Authentication in Blazor Web App - SSR
+**# Custom Authentication in Blazor Web App - SSR**
 
-Blazor 8 may authentication ka process kafi siplify kar dia gaya hay. Auhentication ko implement karnay k leay mandraja zail steps darkar hain
+Blazor 8 has significantly simplified the authentication process. Here are the steps involved in implementing custom authentication:
 
-1. Sub say pehlay aik project banana hay jis may kisi bhi kisam ki authentication na ho
-2. Authentication ko configure karnay k leay Program.cs file may yeh tabdilia required hain
+1. **Project Setup:** Start by creating a Blazor project without any built-in authentication.
 
+2. **Authentication Configuration (Program.cs):** Modify your `Program.cs` file to include the following code:
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(c =>
-{
-    c.Cookie.Name = "app_token";
-    c.Cookie.MaxAge = TimeSpan.FromMinutes(30);
-    c.LoginPath = "/account/login";
-    c.AccessDeniedPath = "/access-denied";
-});
-builder.Services.AddAuthentication();
-builder.Services.AddCascadingAuthenticationState();
+   ```csharp
+   builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(c =>
+   {
+     c.Cookie.Name = "app_token";
+     c.Cookie.MaxAge = TimeSpan.FromMinutes(30); 
+     c.LoginPath = "/account/login"; 
+     c.AccessDeniedPath = "/access-denied"; 
+   });
+   builder.Services.AddAuthentication(); 
+   builder.Services.AddCascadingAuthenticationState();
+   ```
 
+   * This configures cookie-based authentication, sets cookie parameters, and defines redirection paths for login and access denied scenarios.
 
-3. Service ko configure karnay k baad middile ware may yeh update requried hay
+3. **Middleware Updates:**  In your app's middleware pipeline, add the following:
 
+   ```csharp
+   app.UseAuthentication(); 
+   app.UseAuthorization(); 
+   app.UseAntiforgery(); 
+   ```
 
-app.UseAuthentication();
-app.UseAuthorization();
+   * These lines enable authentication and authorization middleware, as well as anti-forgery protection.
 
-app.UseAntiforgery();
+4. **Login View Model (LoginVM.cs):**  Create a view model class to hold login credentials (e.g., username and password). 
 
+5. **Login Page:** Design a login page where users can enter their credentials.
 
-4. login credntial pass karnay k leay LoginVM.cs class darkar ho gee
-5. login page darkar hoga
-6. Login Credential pass karnay per yeh code darkar ho ga
+6. **Login Logic:** Write the code to handle login credential submission:
+   * This would likely involve validating credentials against a user store (database, etc.)
+   * On success, create an authentication cookie to establish the user's session.
 
-
-
-
+**Let me know if you'd like me to expand on any specific parts of the authentication process or provide more detailed code examples!** 
