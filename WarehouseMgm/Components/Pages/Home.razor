@@ -11,7 +11,7 @@ Welcome to your new app.
 
 <AuthorizeView>
     <Authorized>
-        <button class="btn btn-secondary btn-sm" @onclick="DoLogout">Logout</button>
+        <a class="btn btn-danger btn-sm" href="/account/logout">Logout</a>
     </Authorized>
     <NotAuthorized>
         <a class="btn btn-primary btn-sm" href="/account/login">Login</a>
