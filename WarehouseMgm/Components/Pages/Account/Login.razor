@@ -1,0 +1,35 @@
+﻿@page "/account/login"
+
+@using Microsoft.AspNetCore.Authentication
+<div style="width:400px; margin: auto">
+    <h1>Login</h1>
+    <EditForm Model="LoginModel" OnValidSubmit="DoLogin" FormName="LoginForm">
+        <DataAnnotationsValidator />
+        <div>
+            <label>User Name</label>
+        <InputText @bind-Value="LoginModel.UserName" placeholder="User Name" class="form-control form-control-sm" /><br />
+            <ValidationMessage For="@(()=>LoginModel.UserName)" />
+        </div>
+        <div>
+            <label>Password</label>
+            <InputText @bind-Value="LoginModel.Password" placeholder="Password" class="form-control form-control-sm" /><br />
+            <ValidationMessage For="@(()=>LoginModel.Password)" />
+        </div>
+        <button class="btn btn-primary btn-sm" >Login</button>
+        <p>HttpContext is null @(isHttpNull ? "Yes" : "No")</p>
+    </EditForm>
+</div>
+
+@code {
+    [CascadingParameter] HttpContent? httpContent { get; set; }
+    [SupplyParameterFromForm] private LoginVM LoginModel { get; set; } = new LoginVM();
+
+    private bool isHttpNull=true;
+    public async Task DoLogin()
+    {
+        //if(HttpContext==null)
+        isHttpNull = (httpContent == null);
+        StateHasChanged();
+    }
+
+}
